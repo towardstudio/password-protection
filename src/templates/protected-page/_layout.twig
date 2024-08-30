@@ -1,0 +1,38 @@
+{#
+	Layout: Login Global
+	========================================
+	The layout inherited by all layouts and templates across the project.
+#}
+
+{# Get Locale #}
+{% set locale = currentSite.getLocale() %}
+{% set orientation = locale.getOrientation() %}
+
+{# The basic essentials of all webpages served across the project. #}
+{% block html %}
+	{% include '_partials/_http-headers' %}
+
+	<!DOCTYPE html>
+	<html lang="{{ currentSite.language }}" dir="{{ orientation }}" class="no-js preload">
+		<head>
+			{% block head %}
+				{# Head content to be inherited by ALL layouts and templates. #}
+				{% include '_partials/_head-meta' %}
+				{% include '_partials/_vite' %}
+				{% include '_partials/_favicons' %}
+			{% endblock %}
+		</head>
+
+		<body id="body">
+			{% block header %}
+				{# Header content to be inherited by ALL layouts and templates. #}
+			{% endblock %}
+			{% block body %}
+				{# Body content to be inherited by ALL layouts and templates. #}
+			{% endblock %}
+			{% block footer %}
+				{# Footer content to be inherited by ALL layouts and templates. #}
+			{% endblock %}
+		</body>
+	</html>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'passwordprotection/_layouts/settings' %}
+
+{% import '_includes/forms' as forms %}
+
+{% block content %}
+	<input type="hidden" name="action" value="passwordprotection/settings/save-system-settings">
+	{{ redirectInput('passwordprotection/settings') }}
+	{{ csrfInput() }}
+    {{ forms.textField({
+        first: true,
+        id: 'cookieLife',
+        name: 'cookie',
+        label: "Cookie Life",
+        type: "number",
+        instructions: "Cookie lifetime in seconds. This will determine how long the login cookie will live on the users machine.",
+        value: cookieLife ?? 3600,
+    }) }}
+
+    {{ forms.textField({
+        id: 'maxLogin',
+        name: 'loginAttempts',
+        label: "Max Login Attempts",
+        type: "number",
+        instructions: "Maximum amount of login attempts per user.",
+        value: maxLogin ?? 5,
+    }) }}
+
+    {{ forms.textField({
+        id: 'maxLoginsPeriod',
+        name: 'loginAttemptsPeriod',
+        label: "Max Login Attempts Period",
+        type: "number",
+        instructions: "Max login attempts period in seconds available",
+        value: maxLoginsPeriod ?? 300,
+    }) }}
+{% endblock %}

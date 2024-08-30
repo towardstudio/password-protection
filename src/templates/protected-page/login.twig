@@ -1,0 +1,84 @@
+{# Inherit the blocks and their content from the master layout. #}
+{% extends 'protected-page/_layout.twig' %}
+
+{# Get Errors #}
+{% set error = craft.app.session.getFlash('error') %}
+
+{# Get url params #}
+{% set pageUrl = craft.app.request.getParam('ref') %}
+{% set pageId = craft.app.request.getParam('refId') %}
+
+{# Check if the page is still protected #}
+{% set stillProtected = craft.entryPassword.stillProtected(pageId) %}
+{% if not stillProtected %}
+    {% redirect pageUrl %}
+{% endif %}
+
+{% block body %}
+    {% embed '_organisms/_main' with {
+        attributes: {
+            class: [
+                "flex",
+                "justify-center",
+                "items-center",
+                "h-dvh",
+            ]
+        }
+    } %}
+        {% block content %}
+
+            <div class="max-w-4xl mx-auto p-8 shadow">
+                {% include "_atoms/_heading" with {
+		            text: 'Protected Page' | t('app'),
+		            attributes: {
+                        wrapper: {
+                            class: [
+                                "mb-12",
+                            ]
+                        }
+                    }
+	            } %}
+
+                <form
+                    id="login-form"
+                    method="post"
+                    action="{{ pageUrl }}"
+                >
+
+                    {{ csrfInput({ name: 'csrf-token' }) }}
+
+                    {{ field('text', {
+                        type: 'password',
+                        id: 'password',
+                        name: 'password',
+                        placeholder: 'Password' | t('app'),
+                        autocomplete: 'current-password',
+                        inputAttributes: {
+                            class: [
+                                "mb-6",
+                            ],
+                            aria: {
+                                label: 'Password' | t('app'),
+                                required: 'true',
+                            },
+                        },
+                    }) }}
+
+                    {% include '_atoms/_button' with {
+                        tag: "button",
+                        text: "Submit" | t('app'),
+                        type: "submit",
+                    } only %}
+                </form>
+
+
+                {% if error %}
+                    <div id="login-errors" role="alert">
+                        <p>{{ error }}</p>
+                    </div>
+                {% endif %}
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

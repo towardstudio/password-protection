@@ -1,0 +1,29 @@
+{% set displayActionButton = false %}
+
+{% extends 'passwordprotection/_layouts/settings' %}
+
+{% import '_includes/forms' as forms %}
+
+{% block content %}
+	<form method="post">
+        <input type="hidden" name="action" value="passwordprotection/settings/install-templates">
+        {{ redirectInput('passwordprotection/settings/templates') }}
+    	{{ csrfInput() }}
+        <input type="hidden" name="{{ craft.app.config.general.csrfTokenName }}" value="{{ craft.app.request.csrfToken }}">
+
+       <h2 class="first">{{ "Install Login Templates"|t('passwordprotection') }}</h2>
+
+        <table width="100%">
+            <tr>
+                <td width="95%">
+					<p>{{ 'You can install the plugin login templates to your local environment. These will give you a starting point to building your login page.' | t }}</p>
+                </td>
+                <td>
+                    <div class="buttons" style="margin: 18px 0 0 15px !important;">
+                        <input type="submit" class="btn submit" value="{{ "Install" | t('passwordprotection') }}" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

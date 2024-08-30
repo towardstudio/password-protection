@@ -1,0 +1,47 @@
+{% extends "_layouts/cp" %}
+
+{% set selectedSubnavItem = 'settings' %}
+
+{% set title = 'Password Protection Settings' %}
+
+{% set displayActionButton = displayActionButton ?? true %}
+
+{% set navItems = {
+	system: {
+		title: 'System Settings',
+	},
+    sections: {
+		title: 'Included Sections',
+	},
+	templates: {
+		title: 'Install Templates',
+	}
+} %}
+
+{% set extraSegment = craft.app.request.getSegment(4) | default %}
+{% set appendix = extraSegment ? '/'~extraSegment : '' %}
+{% set selectedItem = (craft.app.request.getSegment(3) ~ appendix)|default %}
+
+{% block actionButton %}
+    {% if displayActionButton %}
+        <div class="buttons">
+            <div class="btngroup submit">
+                <input type="submit" class="btn submit" value="{{ 'Save' | t('passwordprotection') }}">
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+    <nav>
+        <ul>
+            {% for id, item in navItems %}
+                <li>
+                    <a href="{{ url('passwordprotection/settings/' ~ id) }}"{% if id == selectedItem %} class="sel"{% endif %}>
+                        {{ item.title | raw }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endblock %}
