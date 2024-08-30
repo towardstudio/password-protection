@@ -2,7 +2,7 @@
 	"name": "towardstudio/password-protection",
 	"description": "Create password protected pages.",
 	"type": "craft-plugin",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "MIT",
 	"authors": [
 		{

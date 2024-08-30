@@ -2,22 +2,24 @@
 
 {% import '_includes/forms' as forms %}
 
-{% set options = [] %}
-{% for section in sections %}
-    {% set options = options | merge([
-        {
-            label: section.name,
-            id: "#{section.name | kebab}-#{section.id}",
-            name: section.id,
-            checked: section.id in includedSections ? true : false,
-        }
-    ]) %}
-{% endfor %}
-
 {% block content %}
 	<input type="hidden" name="action" value="passwordprotection/settings/save-section-settings">
 	{{ redirectInput('passwordprotection/settings/sections') }}
 	{{ csrfInput() }}
+
+    {% set options = [] %}
+    {% for section in sections %}
+        {% if section.previewTargets is not empty %}
+            {% set options = options | merge([
+                {
+                    label: section.name,
+                    id: "#{section.name | kebab}-#{section.id}",
+                    name: section.id,
+                    checked: section.id in includedSections ? true : false,
+                }
+            ]) %}
+        {% endif %}
+    {% endfor %}
 
     {{ forms.checkboxGroupField({
         first: true,
