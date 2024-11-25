@@ -298,9 +298,10 @@ class PasswordProtection extends Plugin
 
             /** Entry @entry */
             $element = $event->sender;
+            $requestType = Craft::$app->getRequest()->getIsCpRequest();
 
-            // We only support entries
-			if (!$element instanceof Entry) {
+            // We only support entries and only from CP
+			if (!$element instanceof Entry || !$requestType) {
 				return;
 			}
 

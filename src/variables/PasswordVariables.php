@@ -6,6 +6,13 @@ use towardstudio\passwordprotection\PasswordProtection;
 
 class PasswordVariables
 {
+    public function getPassword(int $entryId)
+    {
+        $password = PasswordProtection::getInstance()->passwordEntry->get($entryId);
+
+        return $password;
+    }
+
     public function protect(?string $password = null, ?string $key = null)
     {
         PasswordProtection::getInstance()->passwordService->protect($password, $key);
